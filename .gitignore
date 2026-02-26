@@ -11,3 +11,5 @@ project/yf2dgcpp.pck
 project/yf2dgcpp.sh
 project/yf2dgcpp.x86_64
 export_presets.cfg
+.ipynb_checkpoints/README-checkpoint.md
+.gitignore

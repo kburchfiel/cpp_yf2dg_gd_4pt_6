@@ -5,6 +5,7 @@
 #include "entity/player.h"
 #include "entity/mob.h"
 #include "scene/main.h"
+#include "scene/hud.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -20,6 +21,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 	GDREGISTER_RUNTIME_CLASS(Player);
 	GDREGISTER_RUNTIME_CLASS(Mob);
 	GDREGISTER_RUNTIME_CLASS(Main);
+	GDREGISTER_RUNTIME_CLASS(Hud);
 
 }
 

@@ -15,15 +15,19 @@ Note: this document, along with almost practically all of the code in this repos
 
 1. [The official YFD2G guide for Godot 4.5](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/index.html)
 
+1. Godot 4.6 got released while I was working on this project, so from the Heads up display section onward, I then started using [the Godot 4.6 documentation](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/index.html) as a reference.
+
 1. The [Getting started](https://docs.godotengine.org/en/4.5/tutorials/scripting/cpp/gdextension_cpp_example.html) page within Godot's godot-cpp documentation.
 
-1. [Version 3.5 of the YF2DG project](https://docs.godotengine.org/en/3.5/getting_started/first_2d_game/03.coding_the_player.html). (This was the most recent version of the 'Your First 2D Game documentation' to include C++ code examples. It proved very helpful in figuring out which sections of J-Dax's code to present for each corresponding code block.)
+1. [Version 3.5 of the YF2DG project](https://docs.godotengine.org/en/3.5/getting_started/first_2d_game/03.coding_the_player.html). (This was the most recent version of the 'Your First 2D Game documentation' to include C++ code examples. It proved very helpful in figuring out which sections of J-Dax's code to present for each corresponding code block. Having three monitors proved very helpful during this process!) 
 
 1. The [godot-cpp-template](https://github.com/godotengine/godot-cpp-template?tab=Unlicense-1-ov-file#readme) repository
 
 This repository seeks to build on these resources by:
 
-1. Laying out the C++ code step by step, similar to how the official tutorial presents GDScript and C# code bit by bit. (This repository will also contain completed copies of each C++ file--but it can be tricky, and a bit intimidating, to use those finalized versions as learning aids.)
+1. Laying out the C++ code step by step, similar to how the official tutorial presents GDScript and C# code bit by bit. (This repository will also contain completed copies of each C++ file--but it can be tricky, and a bit intimidating, to use those finalized versions as learning aids.) 
+
+    (This process generally involved navigating to code blocks within version 4.5 or 4.6 of the tutorial; checking the code within the equivalent C++ code block in version 3.5 ; finding code within J-Dax's repository that was similar to that block; and then pasting that code into the Readme.)
 
 1. Incorporating a few updates to J-Dax's code that make it compatible with Godot 4.5.
 
@@ -211,7 +215,7 @@ A few other notes:
     set_position(new_position);
     ```
 
-1. This will also be a good time to fill in the registry/folder. First, save the following file as /src/registry/register_types.h:
+1. This will also be a good time to fill in the registry folder. First, save the following file as /src/registry/register_types.h:
 
     (Source: https://docs.godotengine.org/en/4.5/tutorials/scripting/cpp/gdextension_cpp_example.html)
 
@@ -614,7 +618,7 @@ A few other notes:
     GDREGISTER_RUNTIME_CLASS(Mob);
     ```
 
-1. Go ahead and compile your project once again. Note that, if you attempt to play the Mob scene within the Godot editor, you won't see anything within the game window--but that's to be expected, as subsequent code will allow us to view both enemies and our player in the same scene.
+1. Go ahead and compile your project once again. Note that, if you attempt to play the Mob scene within the Godot editor, you won't see anything within the game window--but that's to be expected. Later updates will allow us to view both enemies and our player in the same scene.
 
 1. Next, we'll move on to the [Main game scene](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/05.the_main_game_scene.html) section of the documentation. Once you get to the first code block (e.g. the one preceded by " . . . choose the Mob scene we want to instance."), add the following code to a new file within your scene/ subfolder called main.h:
 
@@ -705,7 +709,7 @@ to a new file called main.cpp:
     ClassDB::register_class<Main>();
     ```
 
-1. For now, skip the signal connection steps discussed in the text that follows this box. Once you get to the next code block (i.e. the one that comes after the text "as well as a new_game function that will set everything up for a new game:"), add the following two functions to the end of your main.cpp file:
+1. For now, skip the signal-connection steps discussed in the text that follows this box. Once you get to the next code block (i.e. the one that comes after the text "as well as a new_game function that will set everything up for a new game:"), add the following two functions to the end of your main.cpp file:
 
 
     ```
@@ -796,8 +800,161 @@ to a new file called main.cpp:
 
 1. Try playing the Main scene again. You should now see mob characters appear from different directions after _on_mob_timer_timeout() gets called.
 
-## Here with editing:
-Continue adding C++ code for the Heads up display section of YF2DG.
+1. Once you confirm everything's working, comment out the `new_game()` line from `ready()` as specified at the end of the main game scene documentation.
+
+1. Next, we'll begin working on the [Heads Up Display (HUD) code](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html). (Whereas I had been using version 4.5 of the Your First 2D Game as a reference for the earlier sections, I'll be using version 4.6 of the tutorial from here on out now that it has been released.
+
+
+1. As in the previous sections, rather than create a 'HUD' CanvasLayer node within the Godot editor (as shown in the official documentation), we'll instead need to create a HUD class within C++, then add this class into the editor later on. Once you get to the first code block (which is preceded by "Now add this script to `HUD`:," go ahead and create a file within your scene folder called hud.h, then copy the following code into it:
+
+    ```
+    #pragma once
+
+    #include <godot_cpp/classes/canvas_layer.hpp>
+
+    using namespace godot;
+
+    class Hud : public CanvasLayer {
+        GDCLASS(Hud, CanvasLayer)
+
+    private:
+        int speed;
+        bool reset;
+        Size2 screenSize;
+
+        static void _bind_methods();
+    public:
+        Hud();
+        ~Hud() = default;
+
+        void show_message(String text);
+        void show_start_button();
+
+        void _on_loss();
+        void _on_reset();
+        void _on_start();
+        void _on_message_timer_timeout();
+        void _on_score_change(int64_t score);
+    };
+    ```
+
+1. Once you reach the following code block, add the following to a new file within the scene folder named hud.cpp:
+
+    ```
+    #include "hud.h"
+
+    #include <godot_cpp/classes/button.hpp>
+    #include <godot_cpp/classes/label.hpp>
+    #include <godot_cpp/classes/timer.hpp>
+    #include <godot_cpp/variant/signal.hpp>
+    #include <godot_cpp/classes/scene_tree.hpp>
+    #include <godot_cpp/classes/scene_tree_timer.hpp>
+    #include <godot_cpp/variant/utility_functions.hpp>
+
+    using namespace godot;
+
+    Hud::Hud() {
+        reset = false;
+    }
+
+    void Hud::show_message(String text) {
+        auto message = get_node<Label>("Message");
+        message->set_text(text);
+        message->show();
+        get_node<Timer>("MessageTimer")->start(2.0);
+    }
+
+    ```
+
+    *(Note: I found that the C++ code in 3.5 diverged quite a bit from J-Dax's code, so I actually found the GDscript code within 4.6 to be more helpful when determining what code of his to place within each block.)*
+
+1. Within the following code block, add the following to hud.cpp:
+
+    ```
+    void Hud::_on_loss() {
+    reset = true;
+    show_message("Game Over");
+    }
+    ```
+
+1. In addition, add the following code to hud.cpp right below your Hud::Hud() code:
+
+    ```
+    void Hud::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("_on_loss"), &Hud::_on_loss);
+    }
+    ```
+
+1. After the next block, which comes after the text "Add the code below to `HUD` to update the score", add the following to hud.cpp:
+
+    ```
+    void Hud::_on_score_change(int64_t score) {
+        get_node<Label>("ScoreLabel")->set_text(String::num_uint64(score));
+    }
+    ```
+
+    In addition, place the following within `_bind_methods():`
+
+    ```
+    ClassDB::bind_method(D_METHOD("_on_score_change"), &Hud::_on_score_change);
+    ```
+
+1. Once you get to the next block, add the following to hud.cpp:
+
+    ```
+
+    void Hud::_on_start() {
+    get_node<Button>("StartButton")->hide();
+    emit_signal("game_started");
+    }
+
+    void Hud::_on_message_timer_timeout() {
+        get_node<Label>("Message")->hide();
+        if (reset) {
+            _on_reset();
+            reset = false;
+        }
+    }
+
+    ```
+    void Hud::_on_reset() {
+        show_message("Dodge the Creeps!");
+        get_node<Button>("StartButton")->show();
+    }
+    ```
+
+    ```
+
+    And, as you may have guessed, you'll need to add entries for these new methods within `_bind_methods()`. You'll also want to include an ADD_SIGNAL() call for the signal referenced within `_on_start()`. Place the following code inside that function:
+
+    ```
+    ADD_SIGNAL(MethodInfo("game_started"));
+    ClassDB::bind_method(D_METHOD("_on_start"), &Hud::_on_start);
+    ClassDB::bind_method(D_METHOD("_on_message_timer_timeout"), &Hud::_on_message_timer_timeout);
+    ClassDB::bind_method(D_METHOD("_on_reset"), &Hud::_on_reset);
+    ```
+
+1. Within register_types.cpp, add the following under `#include "scene/main.h":
+
+    ```
+    #include "scene/hud.h"
+    ```
+
+    Similarly, right before the end of your `initialize_example_module()` function, add the following line:
+
+    ```
+    GDREGISTER_RUNTIME_CLASS(Hud);
+    ```
+
+1. You're finally ready to compile this code. Go ahead and run scons platform=linux (or whatever your OS happens to be). You should then be able to see a new 'HUD' class within your list of scene options. (If you don't, try reloading the editor.)
+
+# Here with editing:
+
+Go ahead and add the HUD to your script, then make other additions/modifications to this script as specified within the Heads Up Display documentation. (https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html)
+
+# General troubleshooting tips
+
+* If you get an 'undefined_symbol' error, or if the Godot editor fails to locate some of your classes, it's possible that you need to complete more of a given section before you can recompile the program. (I ran into this error a few times because I tried to compile my scripts before I entered all of J-Dax's original code for a give class.)
 
 
 ## Note(s) to self:

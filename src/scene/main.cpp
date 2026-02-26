@@ -114,5 +114,5 @@ void Main::_ready() {
 // Don't start the timers unless we're playing.
 // This prevents a Mob from spawning every second while editing.
    //if (Engine::get_singleton()->is_editor_hint()) return;
-   new_game();
+   // new_game(); 
 }
