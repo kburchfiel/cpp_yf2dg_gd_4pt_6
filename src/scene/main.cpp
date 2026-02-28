@@ -1,7 +1,7 @@
 #include "main.h"
 #include "entity/player.h"
 #include "entity/mob.h"
-//#include "scene/hud.h"
+#include "scene/hud.h"
 
 #include <godot_cpp/core/property_info.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
@@ -60,7 +60,7 @@ void Main::game_over() {
     get_node<Timer>("MobTimer")->stop();
     get_node<Timer>("ScoreTimer")->stop();
 
-    // get_node<Hud>("Hud")->_on_loss();
+    get_node<Hud>("Hud")->_on_loss();
 
     // get_node<AudioStreamPlayer>("DeathSound")->play();
     // get_node<AudioStreamPlayer>("Music")->stop();
@@ -76,9 +76,9 @@ void Main::new_game() {
 
     get_node<Timer>("StartTimer")->start();
 
-    // auto hud = get_node<Hud>("Hud");
-    // hud->_on_score_change(score);
-    // hud->show_message("Get Ready!");
+    auto hud = get_node<Hud>("Hud");
+    hud->_on_score_change(score);
+    hud->show_message("Get Ready!");
 
     // get_node<AudioStreamPlayer>("Music")->play();
 }
@@ -86,7 +86,7 @@ void Main::new_game() {
 void Main::_on_score_timer_timeout() {
     UtilityFunctions::print("_on_score_timer_timeout just got called within main.cpp.");
     score++;
-//    get_node<Hud>("Hud")->_on_score_change(score);
+    get_node<Hud>("Hud")->_on_score_change(score);
 }
 
 void Main::_on_start_timer_timeout() {

@@ -52,7 +52,7 @@ A few other notes:
     
 1. Once you get to the [Coding the player](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/03.coding_the_player.html) page, you'll be able to begin adding C++ to your game!
 
-    **A quick note:** The documentation will instruct you to add pre-existing nodes to your scene, then link GDScript files to them. However, when using GDExtension, you'll instead need to define your class within your C++ code, *then* add an instance of that class to your project file. (Simply adding a new node, then renaming it as the same name as your class, won't suffice. This will seem obvious to most of you, but I spent more debugging time than I'd like to admit because, later in this project, I renamed an existing node 'Main' instead of importing my custom Main class into a scene.)
+    **A quick note:** The documentation will instruct you to add pre-existing nodes to your scene, then link GDScript files to them. However, when using GDExtension, you'll instead need to define your class within your C++ code, *then* add an instance of that class to your project file. (Simply adding a new node, then renaming it as the same name as your class, won't suffice. This may seem obvious, but I spent more debugging time than I'd like to admit because, later in this project, I renamed an existing node 'Main' instead of importing my custom Main class into a scene.)
 
 1. First, copy your compiled godot-cpp folder into your root folder. [Since this folder was around 196 MB in size, I imagine there's a way to avoid directly copying it--but this approach will work for now.] Also add a src/ folder. Your directory should now have the following structure:
 
@@ -280,6 +280,8 @@ A few other notes:
     }
     }
     ```
+
+    We'll periodically update this .cpp file with additional entries for the other classes we'll create, but such updates will be much shorter in length.
 
 1. Next, add the following code within your root folder (i.e. at the same level as your /src, /project, and /godot-cpp folders) to a file named SConstruct (no extension):
 
@@ -736,7 +738,7 @@ to a new file called main.cpp:
     ClassDB::bind_method(D_METHOD("new_game"), &Main::new_game);
     ```
 
-1. Now that we've added a game_over() function, we can pass this to the signal connection box in the editor. Go to the Player entry within the Main scene's node tree, then double-click on the `player_hit()` signal within the Player section of its Signals tab. In this box, click on the Main node (since that class is the one that contains the game_over() function); replace any existing text in the Receiver Method box with 'game_over' (not game_over()); and click 'Connect.'
+1. Now that we've added a game_over() function, we can pass this to the signal connection box in the editor. Go to the Player entry within the Main scene's node tree, then double-click on the `player_hit()` signal within the Player section of its Signals tab. In this box, **click on the Main node** (since that class is the one that contains the game_over() function); replace any existing text in the Receiver Method box with 'game_over' (not game_over()); and click 'Connect.'
 
     ![](Images/connecting_signal_2.png)
 
@@ -802,7 +804,7 @@ to a new file called main.cpp:
 
 1. Once you confirm everything's working, comment out the `new_game()` line from `ready()` as specified at the end of the main game scene documentation.
 
-1. Next, we'll begin working on the [Heads Up Display (HUD) code](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html). (Whereas I had been using version 4.5 of the Your First 2D Game as a reference for the earlier sections, I'll be using version 4.6 of the tutorial from here on out now that it has been released.
+1. Next, we'll begin working on the [Heads Up Display (HUD) code](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html). [Whereas I had been using version 4.5 of the Your First 2D Game as a reference for the earlier sections, I'll be using version 4.6 of the tutorial from here on out now that it has been released.]
 
 
 1. As in the previous sections, rather than create a 'HUD' CanvasLayer node within the Godot editor (as shown in the official documentation), we'll instead need to create a HUD class within C++, then add this class into the editor later on. Once you get to the first code block (which is preceded by "Now add this script to `HUD`:," go ahead and create a file within your scene folder called hud.h, then copy the following code into it:
@@ -948,13 +950,58 @@ to a new file called main.cpp:
 
 1. You're finally ready to compile this code. Go ahead and run scons platform=linux (or whatever your OS happens to be). You should then be able to see a new 'HUD' class within your list of scene options. (If you don't, try reloading the editor.)
 
+1. Now that you've created your HUD class, you can scroll back up to the start of the Heads up display section and complete the steps that require it to be present within your project. Go ahead and add your custom Hud class as a new project scene; once you've done so, add the ScoreLabel, Message, StartButton, and MessageTimer children to it that the documentation references. 
+
+    (Note that your C++ code already contains references to these item, which are accessed via `get_node`. I imagine that you'll often complete these steps the other way around (e.g. first adding children of nodes within your script, *then* adding references to them within your code. Similarly, rather than complete all the code for a class before adding it to our project, we'll probably add an initial version of the C++-defined class early on, then improve it over time if needed.)
+
+1. As in previous sections, your method for connecting the StartButton's `pressed()` signal to your Hud class's `_on_start()` function will differ from that shown in the documentation. Instead of creating a GDScript entry, simply click on `pressed()` within the StartButton's Signals menu to launch the 'Connect a Signal to a Method' box. Next, **choose the Hud node**; replace any existing text in the 'Receiver Method:' box with `_on_start`; and click Connect. (If the 'Connect' button won't let you click on it, make sure that (1) you selected the 'Hud' node; (2) your hud.cpp file has a `Hud::_on_start()` function; and (3) you've compiled this code.
+
+1. Using a similar approach, connect the MessageTimer's timeout() signal to the _on_message_timer_timeout() function within hud.cpp. (Enter _on_message_timer_timeout within the `Receiver Method': box.)
+
+1. Similarly, once you've instantiated your Hud scene as a child node of your Main scene, click on the Main scene's Hud child scene; double-click the `game_started()` signal; click on the **Main** scene within the window that appears; and enter new_game in the 'Receiver Method:' box. (Alternatively, you can click the 'Pick' button and choose `new_game()`. Note that this still places `new_game`, not `new_game()`, into the box.)
+
+1. Once you get to the box preceded by `In new_game(), update the score display and show the "Get Ready" message:`, go ahead and add the following code to the bottom of your `new_game()` function within main.cpp:
+
+    ```
+    auto hud = get_node<Hud>("Hud");
+    hud->_on_score_change(score);
+    hud->show_message("Get Ready!");
+    ```
+
+1. In addition, under `#include "entity/mob.h"` at the top of your main.cpp file, add the following line:
+
+    ```
+    #include "scene/hud.h"
+    ```
+1. Next, at the end of your `game_over()` function within main.cpp, add:
+
+    ```
+    get_node<Hud>("Hud")->_on_loss();
+    ```
+
+1. And, to finish up the code updates for this section, add the following to the end of main.cpp's `_on_score_timer_timeout()` function:
+
+    ```
+    get_node<Hud>("Hud")->_on_score_change(score);
+    ```
+
+1. Now that these updates have been taken care of, rerun `scons platform=[your_os]`.
+
+1. Within your Main scene, click on the Player child scene; go to the Signals tab; double-click on `player_hit()` (which should already have the Main scene's `game_over()` function listed under it); select the Hud child scene; and either enter `_on_loss` within the 'Receiver Method:' window or click on the Pick button, then choose `_on_loss()`. Either way, once you've connected this signal, you should see `../Hud :: _on_loss()` below `.. :: game_over()` within the `player_hit()` section of the Signals window.
+
+1. You should now be ready to test out the game again. After clicking the Start button, you should see your Player together with a 'Get ready!' message that disappears after a few seconds. Once you get hit by an enemy, you should then see a temporary 'Game Over' message, followed soon by a temporary 'Dodge the Creeps' message and another Start button.
+
 # Here with editing:
 
-Go ahead and add the HUD to your script, then make other additions/modifications to this script as specified within the Heads Up Display documentation. (https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html)
+Try to add C++ code for the get_tree() and call_group() section within the bottom of https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html . (I was able to find these functions within the compiled godot-cpp library through a content search.) I *think* it will look something like get_tree()->call_group("mobs", "queue_free")--but see if you can add it in.
+
+
 
 # General troubleshooting tips
 
 * If you get an 'undefined_symbol' error, or if the Godot editor fails to locate some of your classes, it's possible that you need to complete more of a given section before you can recompile the program. (I ran into this error a few times because I tried to compile my scripts before I entered all of J-Dax's original code for a give class.)
+
+* For some reason, some of my signals would disappear when I loaded an older version of Godot (4.3, specifically) alongside Godot 4.6. In addition, my 'mob.tscn' file would disppear from the Packed Scene section of my Main scene's Inspector tab.  Closing, then restarting the program would allow the signals to reappear, but I would then need to relink the mob.tscn file and (potentially) reconnect signals to their respective functions.
 
 
 ## Note(s) to self:
