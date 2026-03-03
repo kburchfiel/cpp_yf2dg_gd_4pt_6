@@ -987,13 +987,27 @@ to a new file called main.cpp:
 
 1. Now that these updates have been taken care of, rerun `scons platform=[your_os]`.
 
-1. Within your Main scene, click on the Player child scene; go to the Signals tab; double-click on `player_hit()` (which should already have the Main scene's `game_over()` function listed under it); select the Hud child scene; and either enter `_on_loss` within the 'Receiver Method:' window or click on the Pick button, then choose `_on_loss()`. Either way, once you've connected this signal, you should see `../Hud :: _on_loss()` below `.. :: game_over()` within the `player_hit()` section of the Signals window.
+1. Within your Main scene, click on the Player child scene; go to the Signals tab; double-click on `player_hit()` (which should already have the Main scene's `game_over()` function listed under it); and select the Hud child scene. Next, either enter `_on_loss` within the 'Receiver Method:' window or click on the Pick button, then choose `_on_loss()`. Either way, once you've connected this signal, you should see `../Hud :: _on_loss()` below `.. :: game_over()` within the `player_hit()` section of the Signals window.
 
 1. You should now be ready to test out the game again. After clicking the Start button, you should see your Player together with a 'Get ready!' message that disappears after a few seconds. Once you get hit by an enemy, you should then see a temporary 'Game Over' message, followed soon by a temporary 'Dodge the Creeps' message and another Start button.
 
+1. In order to make all mobs disappear when a new game is called, create the 'mobs' group as specified in the documentation. Next, once you get to the final code block within this section, add the following line within main.cpp after your other `#include` statements:
+
+    ```
+    #include <godot_cpp/classes/scene_tree.hpp>
+    ```
+
+1. In addition, add the following line to the end of your `new_game()` function within main.cpp:
+
+    ```
+    get_tree()->call_group("mobs", "queue_free");
+    ```
+    (Note: These lines weren't present in J-Dax's original code. However, I was able to add them in by performing a content
+    search within my compiled godot-cpp folder for `get_tree` and `call_group`. Since call_group was located within scene_tree.hpp, I imported that library near the top of main.cpp.)
+
 # Here with editing:
 
-Try to add C++ code for the get_tree() and call_group() section within the bottom of https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html . (I was able to find these functions within the compiled godot-cpp library through a content search.) I *think* it will look something like get_tree()->call_group("mobs", "queue_free")--but see if you can add it in.
+Continue adding code for the Finishing Up section (https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/07.finishing-up.html). Also, ask on Discord why your signals may be periodically disappearing from your code!
 
 
 
@@ -1002,6 +1016,67 @@ Try to add C++ code for the get_tree() and call_group() section within the botto
 * If you get an 'undefined_symbol' error, or if the Godot editor fails to locate some of your classes, it's possible that you need to complete more of a given section before you can recompile the program. (I ran into this error a few times because I tried to compile my scripts before I entered all of J-Dax's original code for a give class.)
 
 * For some reason, some of my signals would disappear when I loaded an older version of Godot (4.3, specifically) alongside Godot 4.6. In addition, my 'mob.tscn' file would disppear from the Packed Scene section of my Main scene's Inspector tab.  Closing, then restarting the program would allow the signals to reappear, but I would then need to relink the mob.tscn file and (potentially) reconnect signals to their respective functions.
+
+
+## Signal and packed scene list
+
+For some reason, I found that the signals I had connected within the editor would sometimes disappear after compiling the code. I'm not sure why this was taking place; however, to make adding them back in easier, I created the following quick-reference list of signals and packed scenes. (These are also mentioned in the documentation above.)
+
+Note: If you need to connect a signal to another class (e.g. Main), make this connection within that class's scene. (For instance, to connect your Hud class's `game_started()` function to Main's `_new_game(()` function, you'll need to select the Hud class within the *Main* scene rather than the *Hud* scene.)
+
+* Player class:
+
+    * `player_hit()`: Connect to Main: `game_over()` *and* (still within the Main scene) Hud: `_on_loss()`.
+    * `body_entered()`: Connect to Player: `_on_body_entered()`.
+
+* Hud class:
+
+    * `game_started()`: Connect to Main: `_new_game()`.
+
+    * StartButton: 
+        
+        * `pressed()`: Connect to Hud: `_on_start()`.
+
+    
+    * MessageTimer():
+
+        * `timeout()`: Connect to Hud: `_on_message_timer_timeout()`
+
+* Main class:
+
+    * MobTimer: 
+    
+        * `timeout()`: connect to Main: `_on_mob_timer_timeout()`
+
+    * ScoreTimer: 
+    
+        * `timeout()`: connect to Main: `_on_score_timer_timeout()`
+    
+    * StartTimer: 
+    
+        * `timeout()`: connect to Main: `_on_start_timer_timeout()`
+
+    * Also ensure that your Packed Scene (within the Inspector tab) is set to mob.tscn.
+
+Note: another way to add at least some of these signals in *may* be to insert the following lines into the bottom of your .tscn files:
+
+**main.tscn:**
+
+```
+[connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+```
+
+**hud.tscn:**
+
+```
+[connection signal="pressed" from="StartButton" to="." method="_on_start"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+```
+
+(My player.tscn and mob.tscn files, on the other hand, didn't have any connection entries.)
 
 
 ## Note(s) to self:

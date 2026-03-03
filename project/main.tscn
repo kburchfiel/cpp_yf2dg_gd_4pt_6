@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bvodcojlk4xsb"]
 
-[ext_resource type="PackedScene" uid="uid://curfy7jpqdv5u" path="res://mob.tscn" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://co236tqnxcb1d" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bd5vlbtom3hci" path="res://hud.tscn" id="2_0xm2m"]
 
@@ -11,7 +10,6 @@ _data = {
 point_count = 5
 
 [node name="Main" type="Main" unique_id=606879182]
-packed_scene = ExtResource("1_h2yge")
 
 [node name="Player" parent="." unique_id=252431756 instance=ExtResource("1_ig7tw")]
 
@@ -35,9 +33,6 @@ curve = SubResource("Curve2D_ig7tw")
 [node name="Hud" parent="." unique_id=1028086484 instance=ExtResource("2_0xm2m")]
 
 [connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
-[connection signal="player_hit" from="Player" to="." method="game_over"]
-[connection signal="player_hit" from="Player" to="Hud" method="_on_loss"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
-[connection signal="game_started" from="Hud" to="." method="new_game"]

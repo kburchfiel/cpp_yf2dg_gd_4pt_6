@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://curfy7jpqdv5u"]
+[gd_scene format=3 uid="uid://curfy7jpqdv5u"]
 
 [ext_resource type="Texture2D" uid="uid://c8r2yc4oloqbd" path="res://art/enemyFlyingAlt_1.png" id="1_b3mxk"]
 [ext_resource type="Texture2D" uid="uid://dtox5n8w54iqj" path="res://art/enemyFlyingAlt_2.png" id="2_1qmh0"]
@@ -47,20 +47,20 @@ animations = [{
 radius = 11.666667
 height = 32.0
 
-[node name="Mob" type="RigidBody2D"]
+[node name="Mob" type="RigidBody2D" unique_id=1935317760 groups=["mobs"]]
 collision_mask = 0
 gravity_scale = 0.0
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=767841999]
 scale = Vector2(0.75, 0.75)
 sprite_frames = SubResource("SpriteFrames_pcqmr")
 animation = &"walk"
 frame_progress = 0.23649314
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=386142562]
 rotation = 1.5707964
 scale = Vector2(3, 3)
 shape = SubResource("CapsuleShape2D_jbnni")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="CollisionShape2D"]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="CollisionShape2D" unique_id=176567494]

@@ -10,6 +10,7 @@
 #include <godot_cpp/classes/marker2d.hpp>
 #include <godot_cpp/classes/path_follow2d.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
 
 Main::Main() {
     score = 0;
@@ -79,6 +80,14 @@ void Main::new_game() {
     auto hud = get_node<Hud>("Hud");
     hud->_on_score_change(score);
     hud->show_message("Get Ready!");
+
+    // Note: I added in the following code by performing a content
+    // search within my compiled godot-cpp folder for get_tree
+    // and call_group. Since call_group was located within 
+    // scene_tree.hpp, I imported that library near the top of this
+    // script.
+
+    get_tree()->call_group("mobs", "queue_free");
 
     // get_node<AudioStreamPlayer>("Music")->play();
 }
