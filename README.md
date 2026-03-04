@@ -1,56 +1,57 @@
-# Attempt to get J-Dax's Godot 4.3 Your First 2D Game C++ code working within Godot 4.5
+# Using J-Dax's Godot 4.3 code (with some modifications) to complete Godot 4.6's Your First 2D Game Tutorial in C++
 
-(A work in progress)
+([J-Dax's original project](https://github.com/j-dax/gd-cpp) was released under the BSD-3 license. I'm releasing this modified copy of the project under the MIT license.)
 
 Practically all of the code in this repository comes from one of the following sources:
 
-
-## Guide to completing the Your First 2D Game (YF2DG) project with C++ Code
-
-(Also a work in progress!)
-
-Note: this document, along with almost practically all of the code in this repository, is based heavily on: 
-
 1. [J-Dax's C++ code for Version 4.3 of the YF2DG project](https://github.com/j-dax/gd-cpp) (released under the BSD-3 license)
 
-1. [The official YFD2G guide for Godot 4.5](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/index.html)
+1. [The official YFD2G guides for Godot 4.5](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/index.html) [and Godot 4.6](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/index.html)
 
-1. Godot 4.6 got released while I was working on this project, so from the Heads up display section onward, I then started using [the Godot 4.6 documentation](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/index.html) as a reference.
+    (Godot 4.6 got released while I was working on this project, so once I got to the Heads up display section of the tutorial, I switched from the Godot 4.5 documentation to [the Godot 4.6 documentation](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/index.html) as a reference.)
 
-1. The [Getting started](https://docs.godotengine.org/en/4.5/tutorials/scripting/cpp/gdextension_cpp_example.html) page within Godot's godot-cpp documentation.
+1. The [Getting started](https://docs.godotengine.org/en/4.6/tutorials/scripting/cpp/gdextension_cpp_example.html) page within Godot's GDExtension documentation.
 
 1. [Version 3.5 of the YF2DG project](https://docs.godotengine.org/en/3.5/getting_started/first_2d_game/03.coding_the_player.html). (This was the most recent version of the 'Your First 2D Game documentation' to include C++ code examples. It proved very helpful in figuring out which sections of J-Dax's code to present for each corresponding code block. Having three monitors proved very helpful during this process!) 
 
 1. The [godot-cpp-template](https://github.com/godotengine/godot-cpp-template?tab=Unlicense-1-ov-file#readme) repository
 
-This repository seeks to build on these resources by:
+**This repository seeks to complement these resources by:**
 
 1. Laying out the C++ code step by step, similar to how the official tutorial presents GDScript and C# code bit by bit. (This repository will also contain completed copies of each C++ file--but it can be tricky, and a bit intimidating, to use those finalized versions as learning aids.) 
 
     (This process generally involved navigating to code blocks within version 4.5 or 4.6 of the tutorial; checking the code within the equivalent C++ code block in version 3.5 ; finding code within J-Dax's repository that was similar to that block; and then pasting that code into the Readme.)
 
-1. Incorporating a few updates to J-Dax's code that make it compatible with Godot 4.5.
+1. Incorporating a few updates to J-Dax's code that make it compatible with Godot 4.6.
 
 1. Adding some additional comments on the code and documentation that you might find helpful in your learning journey (especially if you're a relative beginner to Godot or GDExtension).
 
 A few other notes:
 
+1. This project is *not* a replacement for the [official Godot YF2DG tutorial](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game). You'll still need to complete most of the steps found in that tutorial in order to get your game working. The purpose of this project is to (1) provide equivalent C++ code for the GDScript and C# code contained in the tutorial and (2) point out sections where your C++-based workflow will differ from the standard workflow. (Examples include creating new classes and adding signals.)
+
 1. I'm working within Linux Mint, but this guide ought to be helpful for other operating systems also.
 
 1. My personal reason for working on this project is that I want to learn how to code games entirely in C++ within Godot. This is *not* the recommended approach, as GDScript will often allow for faster coding and deployment; it's simply the method that I find the most interesting, though far from the most convenient (or rational!). 
 
+1. This project won't run on its own because it's missing certain assets (e.g. fonts, artwork, and sounds) that are provided via the official Godot YF2DG tutorial. However, if you follow the steps within that tutorial, you'll end up with the materials you need on your own computer--which can then be paired with the C++ code found within this README.
+
+--Ken Burchfiel
+
 ## Steps:
 
-1. If you haven't already, make sure you have a compiled copy of the godot-cpp repository project on your computer. ([This guide](https://docs.godotengine.org/en/4.5/tutorials/scripting/cpp/gdextension_cpp_example.html), which I strongly recommend completing before you tackle the YF2DG project, will teach you how to do so.)
+1. If you haven't already, make sure you have a compiled copy of the [godot-cpp](https://github.com/godotengine/godot-cpp) repository on your computer. ([This guide](https://docs.godotengine.org/en/4.6/tutorials/scripting/cpp/gdextension_cpp_example.html), which I strongly recommend completing before you tackle the YF2DG project, will teach you how to do so.)
 
-1. Follow the steps in the [official YFD2G guide for Godot 4.5](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/index.html) guide until you reach the 'Coding the player' section.
+    Note: As of March 3, 2026, the latest copy of the godot-cpp code (10.x) doesn't yet have a stable release. I found that the beta version that I downloaded worked fine; however, the 4.5 version (which of godot-cpp I initially started with) might also work well. See [the Versioning section](https://github.com/godotengine/godot-cpp#versioning) of the godot-cpp documentation for more details.
+
+1. Follow the steps in the [official YFD2G guide for Godot 4.6](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/index.html) guide until you reach the 'Coding the player' section.
 
     Note: Based on J-Dax's guide, I'm storing my Godot Project documents within a 'project' folder inside my main folder. Here's what my folder structure looks like at this point:
 
         cpp_yf2dg/
         ----project/    
     
-1. Once you get to the [Coding the player](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/03.coding_the_player.html) page, you'll be able to begin adding C++ to your game!
+1. Once you get to the [Coding the player](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/03.coding_the_player.html) page, you'll be able to begin adding C++ to your game!
 
     **A quick note:** The documentation will instruct you to add pre-existing nodes to your scene, then link GDScript files to them. However, when using GDExtension, you'll instead need to define your class within your C++ code, *then* add an instance of that class to your project file. (Simply adding a new node, then renaming it as the same name as your class, won't suffice. This may seem obvious, but I spent more debugging time than I'd like to admit because, later in this project, I renamed an existing node 'Main' instead of importing my custom Main class into a scene.)
 
@@ -65,9 +66,7 @@ A few other notes:
 
     While the official guide discusses attaching a script to your player, this step doesn't apply to C++ code, so you can skip it.
     
-1. After the text "Start by declaring the member variables this object will need" within this section, add the following C++ code to /src/entity/player.h:
-
-    (Source: J-Dax's player.h file)
+1. Once you get to the first code block within this section (which is preceded by "Start by declaring the member variables this object will need"), add the following C++ code to /src/entity/player.h:
 
     ```
     #pragma once
@@ -105,9 +104,7 @@ A few other notes:
     This code has a number of similarities to the C++ code within [Version 3.5 of the YF2DG project](https://docs.godotengine.org/en/3.5/getting_started/first_2d_game/03.coding_the_player.html).
 
 
-1. Next, after the "The _ready() function is called when a node enters the scene tree, which is a good time to find the size of the game window" text, add the following code to /src/entity/player.cpp:
-
-    (Source: J-Dax's player.cpp file)
+1. Next, after the "The _ready() function is called when a node enters the scene tree, which is a good time to find the size of the game window:" text, add the following code to /src/entity/player.cpp:
 
     ```
     #include "player.h"
@@ -130,13 +127,7 @@ A few other notes:
     }
     ```
 
-    (This is only a small portion of J-Dax's full Player.cpp file. I simply included the code that was equivalent to the C++ snippet found at this point within the 3.5 tutorial.)
-
-
-
-1. After you get to "You can detect whether a key is pressed using Input.is_action_pressed(), which returns true if it's pressed or false if it isn't.", add the following C++ code right below the `Player::_ready()` function:
-
-    (Source: J-Dax's player.cpp file)
+1. After you get to "You can detect whether a key is pressed using `Input.is_action_pressed()`, which returns `true` if it's pressed or `false` if it isn't.", add the following C++ code right below the `Player::_ready()` function:
 
     ```
     void Player::_process(double delta) {
@@ -201,9 +192,7 @@ A few other notes:
     ```
 
 
-1. Once you get to the "Add the following to the bottom of the _process function (make sure it's not indented under the else):" text box, add the following before the end of your `_process()` function:
-
-    (Source: J-Dax's player.cpp file)
+1. When you reach the code block that follows "Add the following to the bottom of the _process function (make sure it's not indented under the else):" text box, add the code shown below before the end of your `_process()` function:
 
     ```
     auto new_position = get_position();
@@ -235,7 +224,7 @@ A few other notes:
 
     Next, save the following file as /src/registry/register_types.cpp:
 
-    (The following code is based largely on https://docs.godotengine.org/en/4.5/tutorials/scripting/cpp/gdextension_cpp_example.html .)
+    (The following code is based largely on https://docs.godotengine.org/en/4.6/tutorials/scripting/cpp/gdextension_cpp_example.html .)
 
     ```
     #include "register_types.h"
@@ -253,7 +242,7 @@ A few other notes:
             return;
         }
 
-        GDREGISTER_RUNTIME_CLASS(Player);
+        GDREGISTER_CLASS(Player);
     }
 
     void uninitialize_example_module(ModuleInitializationLevel p_level) {
@@ -384,7 +373,7 @@ A few other notes:
 
 1. Go back into the Godot editor. (You may need to exit out of it and reload it if it was already open.) Click on your existing Player node; choose 'Change type'; search for 'Player'; and then click Change. This will replace your Area2D node with your C++-based Player class.
 
-    (Alternatively, you could probably have added a new Player node to your scene, *then* completed all of the Player setup tasks described earlier in the Your First 2D Game documentation.)
+    (Alternatively, you could probably have added an initial copy of the new C++-based Player class to your scene, *then* completed all of the remaining Player setup tasks described earlier.)
 
 1. Hit play on the top right to test out the scene. You should be able to move the player around with your keyboard.
 
@@ -470,6 +459,7 @@ A few other notes:
 
     If you instead see a 'Cannot connect signal' message, make sure that `_on_body_entered()` is indeed present within your player.cpp code--and that the Player node within your Player scene is indeed an instance of your custom-defined Player class.
 
+    (It's also possible to add signals directly within your .tscn files; see the end of this tutorial for more details on that method.)
 
 1. Finally, when you got to the last code block in this section, add the following code right below `~Player() = default;` within player.h:
 
@@ -489,7 +479,7 @@ A few other notes:
 
 1. Rerun `scons platform=(your_os)`. If you'd like, you can temporarily comment out the `hide()` function you added in recently in order to make sure that your player is still moving around as expected. (By the way: check for any errors within the Debugger window at the bottom of the game engine window while you're running your game. The earlier you catch and address these, the better.)
 
-1. Next, once you get to the first code box within the [Creating the enemy](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/04.creating_the_enemy.html) section of the documentation, create two new files within your src/entity/folder: mob.cpp and mob.h. Copy and paste the following code into the mob.h file:
+1. You're now ready to move on to the [Creating the enemy](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/04.creating_the_enemy.html) section of the documentation. Once you get to the first code block (which is preceded by "Add a script to the Mob like this:"), create two new files within your src/entity/folder: mob.cpp and mob.h. Copy and paste the following code into the mob.h file:
 
     ```
     #pragma once
@@ -518,12 +508,11 @@ A few other notes:
 
     This code, if you haven't noticed already, is very similar to the corresponding code within player.h.
 
-1. Once you get to the second box (i.e. the one preceded by 'In _ready() we play the animation and randomly choose one of the three animation types:'), add the following code to mob.cpp:
+1. Once you get to the second box (i.e. the one preceded by "In `_ready()` we play the animation and randomly choose one of the three animation types:"), add the following code to mob.cpp:
 
     ```
     #include "mob.h"
     #include <godot_cpp/classes/animated_sprite2d.hpp>
-
 
     Mob::Mob() {}
 
@@ -565,7 +554,7 @@ A few other notes:
 
     ```
 
-1. Finally, once you get to the last box (which follows the text 'Connect the screen_exited() signal of the VisibleOnScreenNotifier2D node to the Mob and add this code:'), go back to your mob.h file, then add the following code right below `void start(Vector2 position, float rotation);`:
+1. Finally, once you get to this section's final code box (which follows the text 'Connect the screen_exited() signal of the VisibleOnScreenNotifier2D node to the Mob and add this code:'), go back to your mob.h file, then add the following code right below `void start(Vector2 position, float rotation);`:
 
     ```
     // signals
@@ -614,15 +603,15 @@ A few other notes:
     #include "entity/mob.h"
     ```
 
-1. Next, after `GDREGISTER_RUNTIME_CLASS(Player);`, add in (you guessed it!):
+1. Next, after `GDREGISTER_CLASS(Player);`, add in (you guessed it!):
 
     ```
-    GDREGISTER_RUNTIME_CLASS(Mob);
+    GDREGISTER_CLASS(Mob);
     ```
 
 1. Go ahead and compile your project once again. Note that, if you attempt to play the Mob scene within the Godot editor, you won't see anything within the game window--but that's to be expected. Later updates will allow us to view both enemies and our player in the same scene.
 
-1. Next, we'll move on to the [Main game scene](https://docs.godotengine.org/en/4.5/getting_started/first_2d_game/05.the_main_game_scene.html) section of the documentation. Once you get to the first code block (e.g. the one preceded by " . . . choose the Mob scene we want to instance."), add the following code to a new file within your scene/ subfolder called main.h:
+1. Next, we'll move on to the [Main game scene](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/05.the_main_game_scene.html) section of the documentation. Once you get to the first code block (i.e. the one preceded by "choose the Mob scene we want to instance."), add the following code to a new file within your scene/ subfolder called main.h:
 
     ```
     #pragma once
@@ -711,7 +700,7 @@ to a new file called main.cpp:
     ClassDB::register_class<Main>();
     ```
 
-1. For now, skip the signal-connection steps discussed in the text that follows this box. Once you get to the next code block (i.e. the one that comes after the text "as well as a new_game function that will set everything up for a new game:"), add the following two functions to the end of your main.cpp file:
+1. For now, skip the signal-connection steps discussed in the text that follows this box. Once you get to the next code block (which is preceded by "as well as a new_game function that will set everything up for a new game:"), add the following two functions to the end of your main.cpp file:
 
 
     ```
@@ -738,7 +727,7 @@ to a new file called main.cpp:
     ClassDB::bind_method(D_METHOD("new_game"), &Main::new_game);
     ```
 
-1. Now that we've added a game_over() function, we can pass this to the signal connection box in the editor. Go to the Player entry within the Main scene's node tree, then double-click on the `player_hit()` signal within the Player section of its Signals tab. In this box, **click on the Main node** (since that class is the one that contains the game_over() function); replace any existing text in the Receiver Method box with 'game_over' (not game_over()); and click 'Connect.'
+1. Now that we've added a `game_over()` function, we can pass this to the signal connection box in the editor. Go to the Player entry within the Main scene's node tree, then double-click on the `player_hit()` signal within the Player section of its Signals tab. In this box, **click on the Main node** (since that class is the one that contains the game_over() function); replace any existing text in the Receiver Method box with 'game_over' (not game_over()); and click 'Connect.'
 
     ![](Images/connecting_signal_2.png)
 
@@ -748,7 +737,7 @@ to a new file called main.cpp:
 
     (The double dots signify that `game_over()` is part of the class that contains the Player class--in this case, the Main class.)
 
-1. As usual, skip the signal connection steps that follow this code block for now--as we'll need to define certain functions in our code on which they depend before we can add in those connections.
+1. As usual, skip the signal-connection steps that follow this code block for now--as we'll need to define certain functions in our code on which they depend before we can add in those connections.
 
 1. At the code block that follows "that ScoreTimer will increment the score by 1.", add the following two functions to your main.cpp file (right below your `new_game()` function):
 
@@ -763,7 +752,7 @@ to a new file called main.cpp:
     }
     ```
 
-1. Then, at the following code block, add the following function below `_on_start_timer_timeout()`:
+1. Then, when you reach the following code block (which follows the text "Note that a new instance must be added to the scene using `add_child()`"), add the following function below `_on_start_timer_timeout()`:
 
     ```
     void Main::_on_mob_timer_timeout() {
@@ -782,7 +771,7 @@ to a new file called main.cpp:
 
 1. Now that you've added functions that explain what to do when a given timer runs out, you can go ahead and add `_on_mob_timer_timeout()` to the MobTimer's timeout() signal; `_on_score_timer_timeout()` to the ScoreTimer's timeout() signal; and `_on_start_timer_timeout()` to the StartTimer's timeout() signal. In each case, you'll need to select Main as the node to which to connect.
 
-1. Finally, within the 'Testing the scene' code block, add the following code to the end of your Main class definition within main.h:
+1. Finally, when you reach the 'Testing the scene' section's code block, add the following code to the end of your Main class definition within main.h:
 
     `void _ready() override;`
 
@@ -804,7 +793,7 @@ to a new file called main.cpp:
 
 1. Once you confirm everything's working, comment out the `new_game()` line from `ready()` as specified at the end of the main game scene documentation.
 
-1. Next, we'll begin working on the [Heads Up Display (HUD) code](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html). [Whereas I had been using version 4.5 of the Your First 2D Game as a reference for the earlier sections, I'll be using version 4.6 of the tutorial from here on out now that it has been released.]
+1. Next, you can begin working on the [Heads Up Display (HUD) code](https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/06.heads_up_display.html). [Whereas I had been using version 4.5 of the Your First 2D Game as a reference for the earlier sections, I'll be using version 4.6 of the tutorial from here on out now that it has been released.]
 
 
 1. As in the previous sections, rather than create a 'HUD' CanvasLayer node within the Godot editor (as shown in the official documentation), we'll instead need to create a HUD class within C++, then add this class into the editor later on. Once you get to the first code block (which is preceded by "Now add this script to `HUD`:," go ahead and create a file within your scene folder called hud.h, then copy the following code into it:
@@ -921,11 +910,12 @@ to a new file called main.cpp:
     ```
     void Hud::_on_reset() {
         show_message("Dodge the Creeps!");
-        get_node<Button>("StartButton")->show();
+        get_node\<Button\>("StartButton")->show();
     }
-    ```
 
     ```
+
+
 
     And, as you may have guessed, you'll need to add entries for these new methods within `_bind_methods()`. You'll also want to include an ADD_SIGNAL() call for the signal referenced within `_on_start()`. Place the following code inside that function:
 
@@ -945,7 +935,7 @@ to a new file called main.cpp:
     Similarly, right before the end of your `initialize_example_module()` function, add the following line:
 
     ```
-    GDREGISTER_RUNTIME_CLASS(Hud);
+    GDREGISTER_CLASS(Hud);
     ```
 
 1. You're finally ready to compile this code. Go ahead and run scons platform=linux (or whatever your OS happens to be). You should then be able to see a new 'HUD' class within your list of scene options. (If you don't, try reloading the editor.)
@@ -997,17 +987,31 @@ to a new file called main.cpp:
     #include <godot_cpp/classes/scene_tree.hpp>
     ```
 
-1. In addition, add the following line to the end of your `new_game()` function within main.cpp:
+1. In addition, add the following line to the beginning of your `game_over()` function within main.cpp:
 
     ```
     get_tree()->call_group("mobs", "queue_free");
     ```
+    
+    (The official guide has you add this line to your `new_game()` function, but I prefer to include it at the 
+    very start of `game_over()` to eliminate the chance that any lingering mobs can interfere with your player before your next game begins.)
+    
     (Note: These lines weren't present in J-Dax's original code. However, I was able to add them in by performing a content
     search within my compiled godot-cpp folder for `get_tree` and `call_group`. Since call_group was located within scene_tree.hpp, I imported that library near the top of main.cpp.)
 
-# Here with editing:
+1. Navigate over to the Finishing Up section (https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/07.finishing-up.html). Once you reach the first (and last) code block within this section, add the following line to the end of your main.cpp file's `new_game()` function:
 
-Continue adding code for the Finishing Up section (https://docs.godotengine.org/en/4.6/getting_started/first_2d_game/07.finishing-up.html). Also, ask on Discord why your signals may be periodically disappearing from your code!
+    ```
+    get_node<AudioStreamPlayer>("Music")->play();
+    ```
+1. Next, add the following lines to the end main.cpp's `game_over()` function:
+
+    ```
+    get_node<AudioStreamPlayer>("Music")->stop();
+    get_node<AudioStreamPlayer>("DeathSound")->play();
+    ```
+
+1. Congratulations! You have now coded a 2D game in C++.
 
 
 
@@ -1058,15 +1062,17 @@ Note: If you need to connect a signal to another class (e.g. Main), make this co
 
     * Also ensure that your Packed Scene (within the Inspector tab) is set to mob.tscn.
 
-Note: another way to add at least some of these signals in *may* be to insert the following lines into the bottom of your .tscn files:
+Note: another way to add these signals in is to add the following lines into the bottom of your .tscn files: (If you choose this approach, just take care not to create duplicate copies of any signal entries.)
 
 **main.tscn:**
 
 ```
-[connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
+[connection signal="player_hit" from="Player" to="." method="game_over"]
+[connection signal="player_hit" from="Player" to="Hud" method="_on_loss"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="game_started" from="Hud" to="." method="new_game"]
 ```
 
 **hud.tscn:**
@@ -1076,9 +1082,7 @@ Note: another way to add at least some of these signals in *may* be to insert th
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 ```
 
-(My player.tscn and mob.tscn files, on the other hand, didn't have any connection entries.)
+**player.tscn:**
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 
-
-## Note(s) to self:
-
-1. Some of the code within Mob::start() resembles that in Main::_on_MobTimer_timeout() within version 3.5 of the YF2DG C++ documentation (https://docs.godotengine.org/en/3.5/getting_started/first_2d_game/05.the_main_game_scene.html). You might eventually want to move it over to your own copy of the `_on_mob_timer_timeout` code within main.cpp.
+(My mob.tscn file, meanwhile, didn't have any connection entries.)

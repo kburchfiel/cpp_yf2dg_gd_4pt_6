@@ -2,6 +2,12 @@
 
 [ext_resource type="FontFile" uid="uid://btyjed4bgw34j" path="res://fonts/Xolonium-Regular.ttf" id="1_37p78"]
 
+[sub_resource type="InputEventAction" id="InputEventAction_37p78"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_64ctp"]
+events = [SubResource("InputEventAction_37p78")]
+
 [node name="Hud" type="Hud" unique_id=1028086484]
 
 [node name="ScoreLabel" type="Label" parent="." unique_id=1977792528]
@@ -51,6 +57,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_37p78")
 theme_override_font_sizes/font_size = 64
+shortcut = SubResource("Shortcut_64ctp")
 text = "Start"
 
 [node name="MessageTimer" type="Timer" parent="." unique_id=913086577]

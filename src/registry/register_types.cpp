@@ -18,10 +18,19 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 
-	GDREGISTER_RUNTIME_CLASS(Player);
-	GDREGISTER_RUNTIME_CLASS(Mob);
-	GDREGISTER_RUNTIME_CLASS(Main);
-	GDREGISTER_RUNTIME_CLASS(Hud);
+	// Changed the following from GDREGISTER_RUNTIME_CLASS (as found in
+	// the Godot 4.5 GDExtension demo)
+	// to GDREGISTER_CLASS.
+	// For reference, see
+	// https://docs.godotengine.org/en/4.5/tutorials/scripting/cpp/gdextension_cpp_example.html
+	// and 
+	// https://docs.godotengine.org/en/4.6/tutorials/scripting/cpp/gdextension_cpp_example.html .
+	// This *seemed* to be the only difference between these
+	// two versions' register_types.cpp files.
+	GDREGISTER_CLASS(Player);
+	GDREGISTER_CLASS(Mob);
+	GDREGISTER_CLASS(Main);
+	GDREGISTER_CLASS(Hud);
 
 }
 

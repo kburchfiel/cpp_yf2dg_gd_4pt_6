@@ -58,17 +58,25 @@ void Main::set_mob_scene(Ref<PackedScene> packed_scene) {
 
 void Main::game_over() {
     UtilityFunctions::print("game_over() just got called within main.cpp.");
+    
+    get_tree()->call_group("mobs", "queue_free");
+    
     get_node<Timer>("MobTimer")->stop();
     get_node<Timer>("ScoreTimer")->stop();
 
     get_node<Hud>("Hud")->_on_loss();
 
-    // get_node<AudioStreamPlayer>("DeathSound")->play();
-    // get_node<AudioStreamPlayer>("Music")->stop();
+    get_node<AudioStreamPlayer>("Music")->stop();
+    get_node<AudioStreamPlayer>("DeathSound")->play();
+
+    
+    
 }
 
 void Main::new_game() {
+    
     UtilityFunctions::print("new_game() just got called within main.cpp.");
+    
     score = 0;
 
     auto player = get_node<Player>("Player");
@@ -87,9 +95,9 @@ void Main::new_game() {
     // scene_tree.hpp, I imported that library near the top of this
     // script.
 
-    get_tree()->call_group("mobs", "queue_free");
+    
 
-    // get_node<AudioStreamPlayer>("Music")->play();
+    get_node<AudioStreamPlayer>("Music")->play();
 }
 
 void Main::_on_score_timer_timeout() {
