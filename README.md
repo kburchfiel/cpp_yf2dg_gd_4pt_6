@@ -18,7 +18,7 @@ Practically all of the code in this repository comes from one of the following s
 
 **This repository seeks to complement these resources by:**
 
-1. Laying out the C++ code step by step, similar to how the official tutorial presents GDScript and C# code bit by bit. (This repository will also contain completed copies of each C++ file--but it can be tricky, and a bit intimidating, to use those finalized versions as learning aids.) 
+1. Laying out the C++ code step by step, similar to how the official tutorial presents GDScript and C# code bit by bit. (This repository also contains completed copies of each C++ file--but it can be tricky, and a bit intimidating, to use those finalized versions as learning aids.) 
 
     (This process generally involved navigating to code blocks within version 4.5 or 4.6 of the tutorial; checking the code within the equivalent C++ code block in version 3.5 ; finding code within J-Dax's repository that was similar to that block; and then pasting that code into the Readme.)
 
